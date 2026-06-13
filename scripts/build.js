@@ -23,7 +23,12 @@ const CONFIG_PATH = path.join(ROOT, 'config.json');
 const REPO = process.env.GITHUB_REPOSITORY || '';
 const BRANCH = process.env.GITHUB_REF_NAME || 'main';
 
-const SHELF_ORDER = ['Discovery', 'Learning', 'Research', 'Building', 'Outreach', 'Reflection'];
+const SHELF_ORDER = [
+  // Workshop / functional shelves (curated prompts)
+  'Discovery', 'Learning', 'Research', 'Building', 'Outreach', 'Reflection',
+  // Life-context shelves (where student receipts get filed)
+  'Studying', 'Applications', 'Career Research', 'Projects', 'Life Decisions'
+];
 
 const ROMAN_MONTHS = [
   'I', 'II', 'III', 'IV', 'V', 'VI',

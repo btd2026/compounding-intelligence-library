@@ -7,6 +7,52 @@
    ============================================================ */
 
 const LS_PREFIX = 'rr-edit:';
+const LS_RESPONSE_PREFIX = 'rr-response:';
+
+// -------------- RESPONSE STORAGE --------------
+function readResponse(id) {
+  try {
+    const raw = localStorage.getItem(LS_RESPONSE_PREFIX + id);
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) { return null; }
+}
+
+function writeResponse(id, patch) {
+  localStorage.setItem(LS_RESPONSE_PREFIX + id, JSON.stringify({ ...patch, updated_at: new Date().toISOString() }));
+}
+
+function clearResponse(id) {
+  localStorage.removeItem(LS_RESPONSE_PREFIX + id);
+}
+
+function detectRepoFromLocation() {
+  const host = window.location.host;
+  const segs = window.location.pathname.split('/').filter(Boolean);
+  if (host.endsWith('.github.io')) {
+    const owner = host.split('.')[0];
+    const repo  = segs[0] || `${owner}.github.io`;
+    return { owner, repo };
+  }
+  return { owner: '', repo: '' };
+}
+
+function todayISO() {
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
+function slugifyTitle(s) {
+  return (s || '').trim()
+    .replace(/['"`]/g, '')
+    .replace(/[^a-zA-Z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '')
+    .split('_').filter(Boolean)
+    .map(w => w[0].toUpperCase() + w.slice(1))
+    .join('_');
+}
 
 const state = {
   data: null,         // full prompts.json
@@ -18,12 +64,20 @@ const state = {
 };
 
 const SHELF_COLORS = {
-  Discovery: 'var(--shelf-amber)',
-  Research:  'var(--shelf-blue)',
-  Outreach:  'var(--shelf-teal)',
-  Building:  'var(--shelf-purple)',
-  Reflection:'var(--shelf-coral)',
-  Misc:      'var(--shelf-gray)'
+  // Workshop / functional shelves
+  Discovery:        'var(--shelf-amber)',
+  Learning:         'var(--shelf-teal)',
+  Research:         'var(--shelf-blue)',
+  Building:         'var(--shelf-purple)',
+  Outreach:         'var(--shelf-coral)',
+  Reflection:       'var(--shelf-coral)',
+  // Life-context shelves (student receipts)
+  Studying:         'var(--shelf-blue)',
+  Applications:     'var(--shelf-teal)',
+  'Career Research':'var(--shelf-amber)',
+  Projects:         'var(--shelf-purple)',
+  'Life Decisions': 'var(--shelf-coral)',
+  Misc:             'var(--shelf-gray)'
 };
 
 const ROMAN_NUMERALS = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
@@ -265,8 +319,24 @@ function renderReadHTML(p) {
   const sessionLine = p.session && p.lesson
     ? `from Session ${p.session} · Lesson ${p.lesson}`
     : 'from the collection';
-  // Render markdown body
-  const bodyHtml = renderMarkdown(p.body);
+
+  // Render markdown body, then wrap any <h2>...</h2> immediately followed by
+  // a code-block-wrap into a <details> so the long prompt is collapsible.
+  let bodyHtml = renderMarkdown(p.body);
+  bodyHtml = bodyHtml.replace(
+    /(<h2[^>]*>)([\s\S]*?)(<\/h2>)\s*(<div class="code-block-wrap">[\s\S]*?<\/div>)/gi,
+    (_m, _open, heading, _close, codeBlock) => {
+      const text = heading.replace(/<[^>]+>/g, '').trim();
+      return (
+        `<details open class="prompt-details">` +
+          `<summary class="prompt-summary"><span class="prompt-heading">${text}</span>` +
+          `<span class="prompt-toggle" aria-hidden="true">▾</span></summary>` +
+          codeBlock +
+        `</details>`
+      );
+    }
+  );
+
   const editGitHubBtn = p.edit_url
     ? `<button class="action" data-act="github">${icon('github')}<span>Edit on GitHub</span></button>`
     : '';
@@ -277,7 +347,106 @@ function renderReadHTML(p) {
     ? `<button class="action danger" data-act="discard">Discard local edits</button>`
     : '';
 
+  // ---- Response panel pre-fill ----
+  const resp = readResponse(p.id) || {};
+  const respBadge = resp.updated_at
+    ? `<span class="card-stamp" style="transform:none; background:var(--shelf-coral); color:var(--cream);">DRAFT RESPONSE</span>`
+    : '';
+
+  // Inline styles so collapsible + response panel work even if styles.css is cached
+  const inlineStyles = `
+    <style>
+      .prompt-details { margin: 18px 0; }
+      .prompt-summary {
+        cursor: pointer;
+        list-style: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: var(--serif);
+        font-style: italic;
+        font-size: 24px;
+        color: var(--ink);
+        padding: 6px 0;
+        border-bottom: 1px dashed var(--paper-edge);
+      }
+      .prompt-summary::-webkit-details-marker { display: none; }
+      .prompt-summary:hover { color: var(--walnut); }
+      .prompt-toggle {
+        font-size: 18px;
+        color: var(--ink-faint);
+        transition: transform 200ms;
+      }
+      details[open] > summary .prompt-toggle { transform: rotate(180deg); }
+      details:not([open]) > summary { border-bottom: 1px solid var(--paper-edge); }
+      .prompt-details > .code-block-wrap { margin-top: 12px; }
+
+      .response-panel {
+        margin-top: 36px;
+        padding: 22px 0 0;
+        border-top: 1px solid var(--paper-edge);
+      }
+      .response-eyebrow {
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--shelf-coral);
+        margin: 0 0 4px;
+      }
+      .response-title {
+        font-family: var(--serif);
+        font-style: italic;
+        font-size: 22px;
+        color: var(--ink);
+        margin: 0 0 6px;
+      }
+      .response-sub {
+        font-family: var(--serif);
+        font-style: italic;
+        font-size: 14px;
+        color: var(--ink-soft);
+        margin: 0 0 18px;
+      }
+      .response-label {
+        display: block;
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        margin: 14px 0 4px;
+      }
+      .response-input {
+        width: 100%;
+        padding: 10px 12px;
+        font-family: var(--serif);
+        font-size: 15px;
+        line-height: 1.5;
+        color: var(--ink);
+        background: var(--cream-soft);
+        border: 1px solid var(--paper-edge);
+        border-radius: 3px;
+        resize: vertical;
+        min-height: 72px;
+      }
+      .response-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 18px;
+      }
+      .response-buttons {
+        display: flex;
+        gap: 10px;
+      }
+    </style>
+  `;
+
   return `
+    ${inlineStyles}
     <div class="modal-header">
       <div>
         <p class="modal-call">CALL NO. &nbsp; ${escapeHtml(p.call_number)}</p>
@@ -299,10 +468,50 @@ function renderReadHTML(p) {
 
       <div class="modal-content" id="modal-content">${bodyHtml}</div>
 
+      <section class="response-panel" id="response-panel">
+        <p class="response-eyebrow">YOUR RESPONSE · KEPT IN THIS BROWSER</p>
+        <h3 class="response-title">What did you do with this prompt?</h3>
+        <p class="response-sub">Capture what AI gave you back and what you did with it. Autosaves locally as you type. When you're ready, click <em>Publish to library</em> to mint it as its own card on your Reflection shelf.</p>
+
+        <label class="response-label" for="response-tried">What I tried</label>
+        <textarea class="response-input" id="response-tried" data-field="tried"
+                  placeholder="One or two sentences — what were you trying to figure out?">${escapeHtml(resp.tried || '')}</textarea>
+
+        <label class="response-label" for="response-gave">What AI gave me back</label>
+        <textarea class="response-input" id="response-gave" data-field="gave_back" rows="3"
+                  placeholder="Brief summary — not the full dump.">${escapeHtml(resp.gave_back || '')}</textarea>
+
+        <label class="response-label" for="response-unlocked">How I used it / what it unlocked</label>
+        <textarea class="response-input" id="response-unlocked" data-field="unlocked" rows="3"
+                  placeholder="The actual outcome — did you ship, decide, learn?">${escapeHtml(resp.unlocked || '')}</textarea>
+
+        <label class="response-label" for="response-shelf">File this response on</label>
+        <select id="response-shelf" data-field="shelf" class="response-input" style="min-height:0; padding: 10px 12px;">
+          <option value="Reflection"${resp.shelf === 'Reflection' || !resp.shelf ? ' selected' : ''}>Reflection (default)</option>
+          <option value="Studying"${resp.shelf === 'Studying' ? ' selected' : ''}>Studying</option>
+          <option value="Applications"${resp.shelf === 'Applications' ? ' selected' : ''}>Applications</option>
+          <option value="Career Research"${resp.shelf === 'Career Research' ? ' selected' : ''}>Career Research</option>
+          <option value="Projects"${resp.shelf === 'Projects' ? ' selected' : ''}>Projects</option>
+          <option value="Life Decisions"${resp.shelf === 'Life Decisions' ? ' selected' : ''}>Life Decisions</option>
+          <option value="Discovery"${resp.shelf === 'Discovery' ? ' selected' : ''}>Discovery</option>
+          <option value="Learning"${resp.shelf === 'Learning' ? ' selected' : ''}>Learning</option>
+          <option value="Building"${resp.shelf === 'Building' ? ' selected' : ''}>Building</option>
+        </select>
+
+        <div class="response-actions">
+          <span class="micro" id="response-stamp">${resp.updated_at ? '⁂ DRAFT SAVED ' + escapeHtml(formatTime(new Date(resp.updated_at))) : '⁂ AUTOSAVES TO YOUR BROWSER'}</span>
+          <div class="response-buttons">
+            ${resp.updated_at ? `<button class="action danger" data-act="response-clear">Clear draft</button>` : ''}
+            <button class="action solid" data-act="response-publish">${icon('feather')}<span>Publish to library →</span></button>
+          </div>
+        </div>
+      </section>
+
       <div class="modal-foot">
         <div style="display:flex; gap:10px; align-items:center;">
           <span class="micro">⁂ ${escapeHtml(stamp)}</span>
           ${localBadge}
+          ${respBadge}
         </div>
         ${discardBtn}
       </div>
@@ -364,8 +573,38 @@ function wireModal(p, mode) {
       else if (act === 'preview') openPrompt(p.id, 'read');
       else if (act === 'save') saveEditFromForm(p.id);
       else if (act === 'discard') discardEdit(p.id);
+      else if (act === 'response-clear') clearResponseDraft(p.id);
+      else if (act === 'response-publish') publishResponse(p.id);
     });
   });
+
+  // Response autosave (read mode only)
+  if (mode === 'read') {
+    const inputs = card.querySelectorAll('.response-input[data-field]');
+    const stamp = card.querySelector('#response-stamp');
+    let timer = null;
+    const collectAndSave = () => {
+      clearTimeout(timer);
+      stamp.textContent = '⁂ SAVING…';
+      timer = setTimeout(() => {
+        const data = {};
+        inputs.forEach(el => { data[el.dataset.field] = el.value; });
+        // Only persist if there's actual content
+        const hasContent = ['tried','gave_back','unlocked'].some(k => (data[k] || '').trim());
+        if (hasContent) {
+          writeResponse(p.id, data);
+          stamp.textContent = `⁂ DRAFT SAVED ${formatTime(new Date())}`;
+        } else {
+          clearResponse(p.id);
+          stamp.textContent = '⁂ AUTOSAVES TO YOUR BROWSER';
+        }
+      }, 600);
+    };
+    inputs.forEach(el => {
+      el.addEventListener('input', collectAndSave);
+      el.addEventListener('change', collectAndSave);
+    });
+  }
 
   // Wire code-block copy buttons inside read mode
   if (mode === 'read') {
@@ -411,6 +650,79 @@ function wireModal(p, mode) {
 }
 
 // -------------- ACTIONS --------------
+function clearResponseDraft(id) {
+  if (!confirm('Clear your saved response draft for this prompt? This cannot be undone.')) return;
+  clearResponse(id);
+  showToast('Draft cleared');
+  // Re-render the modal so the form clears
+  renderModal();
+}
+
+function publishResponse(id) {
+  const p = state.prompts.find(x => x.id === id);
+  if (!p) return;
+
+  // Read latest from the form (more recent than localStorage if user just typed)
+  const card = document.getElementById('modal-card');
+  const data = {};
+  card.querySelectorAll('.response-input[data-field]').forEach(el => {
+    data[el.dataset.field] = (el.value || '').trim();
+  });
+
+  if (!data.tried && !data.gave_back && !data.unlocked) {
+    showToast('Write something first');
+    return;
+  }
+
+  const today = todayISO();
+  const targetShelf = data.shelf || 'Reflection';
+  const slugBase = slugifyTitle(p.title) || 'Prompt';
+  const filename = `Response__${slugBase}__${today}.md`;
+  const responseTitle = `Response: ${p.title}`;
+
+  const fm = [
+    '---',
+    `title: ${responseTitle}`,
+    `shelf: ${targetShelf}`,
+    `session: ${p.session || 1}`,
+    `lesson: ${p.lesson || 1}`,
+    `summary: What I did with "${p.title}" — ${today}`,
+    `date_filed: ${today}`,
+    `responds_to: ${p.filename || p.id}`,
+    '---',
+    ''
+  ].join('\n');
+
+  const parts = [fm];
+  parts.push(`A personal response to **${p.title}**${p.session && p.lesson ? ` (Session ${p.session} · Lesson ${p.lesson})` : ''}. Filed ${today}.\n`);
+  if (p.edit_url) parts.push(`**Original prompt:** [${p.title}](${p.edit_url})\n`);
+  if (data.tried)    parts.push(`## What I tried\n${data.tried}\n`);
+  if (data.gave_back) parts.push(`## What AI gave me back\n${data.gave_back}\n`);
+  if (data.unlocked) parts.push(`## How I used it / what it unlocked\n${data.unlocked}\n`);
+
+  const markdown = parts.join('\n').trim() + '\n';
+
+  const { owner, repo } = detectRepoFromLocation();
+  if (owner && repo) {
+    const url = `https://github.com/${owner}/${repo}/new/main` +
+      `?filename=prompts/${encodeURIComponent(filename)}` +
+      `&value=${encodeURIComponent(markdown)}`;
+    window.open(url, '_blank', 'noopener');
+    showToast('Opening GitHub — commit there to publish');
+  } else {
+    // No repo detected — fall back to download
+    const blob = new Blob([markdown], { type: 'text/markdown' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(link.href);
+    showToast('Downloaded — drop in prompts/ to publish');
+  }
+}
+
 function copyPromptBody(id) {
   const p = state.prompts.find(x => x.id === id);
   if (!p) return;

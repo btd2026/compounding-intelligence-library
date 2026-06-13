@@ -12,7 +12,12 @@
     "Research",
     "Building",
     "Outreach",
-    "Reflection"
+    "Reflection",
+    "Studying",
+    "Applications",
+    "Career Research",
+    "Projects",
+    "Life Decisions"
   ],
   "prompts": [
     {
@@ -228,5 +233,5 @@
   ],
   "repo": "",
   "branch": "main",
-  "generated_at": "2026-06-13T15:23:07.306Z"
+  "generated_at": "2026-06-13T15:33:08.758Z"
 }
