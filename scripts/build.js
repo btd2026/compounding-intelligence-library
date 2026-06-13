@@ -23,7 +23,7 @@ const CONFIG_PATH = path.join(ROOT, 'config.json');
 const REPO = process.env.GITHUB_REPOSITORY || '';
 const BRANCH = process.env.GITHUB_REF_NAME || 'main';
 
-const SHELF_ORDER = ['Discovery', 'Research', 'Outreach', 'Building', 'Reflection'];
+const SHELF_ORDER = ['Discovery', 'Learning', 'Research', 'Building', 'Outreach', 'Reflection'];
 
 const ROMAN_MONTHS = [
   'I', 'II', 'III', 'IV', 'V', 'VI',

@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add a prompt · Reading Room</title>
+  <meta name="description" content="Add a new prompt to your Compounding Intelligence library." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+  <style>
+    /* Page-specific overrides — inherits the library theme */
+    .form-card {
+      background: var(--cream);
+      border: 0.5px solid var(--gold);
+      border-radius: 4px;
+      padding: 28px 32px;
+      margin-top: 24px;
+    }
+    .field {
+      margin-bottom: 18px;
+    }
+    .field label {
+      display: block;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 6px;
+    }
+    .field .hint {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 14px;
+      color: var(--ink-faint);
+      margin-top: 4px;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      padding: 10px 12px;
+      font-family: var(--serif);
+      font-size: 16px;
+      color: var(--ink);
+      background: var(--cream-soft);
+      border: 1px solid var(--paper-edge);
+      border-radius: 3px;
+    }
+    .field textarea {
+      font-family: var(--mono);
+      font-size: 13.5px;
+      line-height: 1.5;
+      resize: vertical;
+      min-height: 140px;
+    }
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .btn {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 10px 18px;
+      border: 1px solid var(--walnut);
+      background: var(--cream-soft);
+      color: var(--ink);
+      cursor: pointer;
+      border-radius: 3px;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn:hover {
+      background: var(--gold-faint);
+    }
+    .btn.primary {
+      background: var(--walnut);
+      color: var(--cream);
+      border-color: var(--walnut);
+    }
+    .btn.primary:hover {
+      background: var(--ink-soft);
+    }
+    .btn:disabled, .btn[disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    #preview {
+      width: 100%;
+      min-height: 280px;
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.5;
+      padding: 14px;
+      border: 1px dashed var(--paper-edge);
+      background: var(--cream-soft);
+      color: var(--ink);
+      white-space: pre;
+      overflow-x: auto;
+      border-radius: 3px;
+      margin-top: 14px;
+    }
+    .section-title {
+      font-family: var(--serif);
+      font-size: 24px;
+      font-style: italic;
+      color: var(--ink);
+      margin: 28px 0 8px;
+    }
+    .section-sub {
+      font-family: var(--serif);
+      font-size: 14px;
+      font-style: italic;
+      color: var(--ink-soft);
+      margin: 0 0 14px;
+    }
+    .step-bar {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 6px;
+    }
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--ink);
+      color: var(--cream);
+      padding: 10px 16px;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-radius: 3px;
+      opacity: 0;
+      transition: opacity 200ms;
+      pointer-events: none;
+    }
+    #toast.show {
+      opacity: 1;
+    }
+    .back-link {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--walnut);
+      text-decoration: none;
+    }
+    .back-link:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <p style="margin-bottom: 14px;"><a class="back-link" href="./">← back to the reading room</a></p>
+
+    <header class="plaque">
+      <p class="micro">ACQUISITIONS DESK</p>
+      <h1 class="serif-title">Add a prompt</h1>
+      <p class="serif-italic">Fill in the card. Send it to the shelves.</p>
+      <div class="ornament-rule">
+        <hr class="gold-rule" /><span class="asterism">⁂</span><hr class="gold-rule" />
+      </div>
+      <p class="micro" id="repo-line"></p>
+    </header>
+
+    <div class="form-card">
+      <p class="step-bar">Step 1 — describe the prompt</p>
+
+      <div class="field">
+        <label for="title">Title</label>
+        <input id="title" type="text" placeholder="e.g., Photosynthesis as a Diagram" />
+        <p class="hint">Short, specific. This becomes the card title on the shelf.</p>
+      </div>
+
+      <div class="field">
+        <label for="summary">Summary</label>
+        <input id="summary" type="text" placeholder="One sentence — what this prompt actually does." />
+        <p class="hint">Shows up under the title in the catalog view.</p>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="shelf">Shelf</label>
+          <select id="shelf">
+            <option value="Discovery">Discovery</option>
+            <option value="Learning">Learning</option>
+            <option value="Research">Research</option>
+            <option value="Building">Building</option>
+            <option value="Outreach">Outreach</option>
+            <option value="Reflection">Reflection</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="session">Session</label>
+          <input id="session" type="number" min="1" max="9" value="1" />
+        </div>
+        <div class="field">
+          <label for="lesson">Lesson</label>
+          <input id="lesson" type="number" min="1" max="9" value="1" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="intelligence">Intelligence (optional)</label>
+        <select id="intelligence">
+          <option value="">— none —</option>
+          <option value="Word smart">Word smart</option>
+          <option value="Logic smart">Logic smart</option>
+          <option value="Picture smart">Picture smart</option>
+          <option value="Music smart">Music smart</option>
+          <option value="Body smart">Body smart</option>
+          <option value="Pattern smart">Pattern smart</option>
+          <option value="People smart">People smart</option>
+          <option value="Self smart">Self smart</option>
+        </select>
+        <p class="hint">If this prompt is tuned for one of the eight intelligences, pick it.</p>
+      </div>
+
+      <p class="step-bar" style="margin-top: 28px;">Step 2 — the prompt itself</p>
+
+      <div class="field">
+        <label for="blurb">One-paragraph blurb</label>
+        <textarea id="blurb" rows="3" placeholder="What this prompt is for, who should reach for it, what makes it work."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="prompt-body">The prompt (verbatim)</label>
+        <textarea id="prompt-body" rows="14" placeholder="Paste the actual prompt you ran (or the template). This appears in a code fence on the card."></textarea>
+        <p class="hint">Quote it as you ran it. No paraphrasing — that's how a library survives.</p>
+      </div>
+
+      <p class="step-bar" style="margin-top: 28px;">Step 3 — the receipt (optional)</p>
+
+      <div class="field">
+        <label for="trying">What I was trying to figure out</label>
+        <textarea id="trying" rows="2" placeholder="One or two sentences."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="gave-back">What AI gave me back</label>
+        <textarea id="gave-back" rows="3" placeholder="Brief summary — not the full dump."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="unlocked">How I used it / what it unlocked</label>
+        <textarea id="unlocked" rows="3" placeholder="The actual outcome. Did you ship something, decide something, learn something?"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="next-time">What I'd change next time (optional)</label>
+        <textarea id="next-time" rows="2" placeholder="One line."></textarea>
+      </div>
+
+      <div class="actions">
+        <button class="btn" id="generate-btn" type="button">Generate markdown</button>
+        <button class="btn" id="copy-btn" type="button" disabled>Copy</button>
+        <a class="btn primary" id="github-btn" href="#" target="_blank" rel="noopener" hidden>Create on GitHub →</a>
+      </div>
+
+      <textarea id="preview" placeholder="The generated markdown will appear here once you click Generate." readonly></textarea>
+
+      <p class="section-sub" style="margin-top: 18px;">
+        After "Create on GitHub" opens GitHub's new-file view, scroll to the bottom of that page, write a short commit message, and click <strong>Commit new file</strong>. The library rebuilds automatically — your card appears on the shelf within ~60 seconds.
+      </p>
+    </div>
+
+    <div id="toast" role="status" aria-live="polite">Copied to clipboard</div>
+  </div>
+
+  <script>
+    // ----- Repo detection ----------------------------------------
+    function detectRepo() {
+      const host = window.location.host;        // e.g., "btd2026.github.io"
+      const segs = window.location.pathname.split('/').filter(Boolean);
+      // GitHub Pages: user-page = <user>.github.io ; project-page = <user>.github.io/<repo>/
+      let owner = '';
+      let repo  = '';
+      if (host.endsWith('.github.io')) {
+        owner = host.split('.')[0];
+        repo  = segs[0] || `${owner}.github.io`;
+      }
+      return { owner, repo };
+    }
+
+    const { owner, repo } = detectRepo();
+    const repoLine = document.getElementById('repo-line');
+    if (owner && repo) {
+      repoLine.textContent = `Will create file in: ${owner}/${repo} · main · prompts/`;
+    } else {
+      repoLine.textContent = 'Repo not auto-detected. The "Create on GitHub" button will fall back to copy-only.';
+    }
+
+    // ----- Helpers ----------------------------------------------
+    function todayISO() {
+      const d = new Date();
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    }
+
+    function slugify(s) {
+      return s.trim()
+        .replace(/['"`]/g, '')
+        .replace(/[^a-zA-Z0-9]+/g, '_')
+        .replace(/^_+|_+$/g, '')
+        .split('_')
+        .filter(Boolean)
+        .map(w => w[0].toUpperCase() + w.slice(1))
+        .join('_');
+    }
+
+    function getVal(id) {
+      return (document.getElementById(id).value || '').trim();
+    }
+
+    // ----- Build markdown ---------------------------------------
+    function buildMarkdown() {
+      const title     = getVal('title');
+      const summary   = getVal('summary');
+      const shelf     = getVal('shelf');
+      const session   = getVal('session');
+      const lesson    = getVal('lesson');
+      const intel     = getVal('intelligence');
+      const blurb     = getVal('blurb');
+      const promptBody= getVal('prompt-body');
+      const trying    = getVal('trying');
+      const gaveBack  = getVal('gave-back');
+      const unlocked  = getVal('unlocked');
+      const nextTime  = getVal('next-time');
+
+      if (!title)      { alert('Title is required.');    return null; }
+      if (!summary)    { alert('Summary is required.');  return null; }
+      if (!promptBody) { alert('Prompt body is required.'); return null; }
+
+      const fm = [
+        '---',
+        `title: ${title}`,
+        `shelf: ${shelf}`,
+        `session: ${session || 1}`,
+        `lesson: ${lesson || 1}`,
+        `summary: ${summary}`,
+        `date_filed: ${todayISO()}`,
+      ];
+      if (intel) fm.push(`intelligence: ${intel}`);
+      fm.push('---', '');
+
+      const parts = [fm.join('\n')];
+
+      if (blurb)  parts.push(blurb + '\n');
+
+      parts.push(`**Sits in the curriculum at:** Session ${session || 1} · Lesson ${lesson || 1}\n`);
+
+      parts.push('## The prompt\n');
+      parts.push('```');
+      parts.push(promptBody);
+      parts.push('```\n');
+
+      if (trying || gaveBack || unlocked || nextTime) {
+        if (trying)   parts.push('## What I was trying to figure out\n', trying + '\n');
+        if (gaveBack) parts.push('## What AI gave me back\n', gaveBack + '\n');
+        if (unlocked) parts.push('## How I used it / what it unlocked\n', unlocked + '\n');
+        if (nextTime) parts.push('## What I\'d change next time\n', nextTime + '\n');
+      }
+
+      return { markdown: parts.join('\n').trim() + '\n', filename: `${slugify(title)}.md` };
+    }
+
+    // ----- Wire up buttons --------------------------------------
+    const preview   = document.getElementById('preview');
+    const copyBtn   = document.getElementById('copy-btn');
+    const ghBtn     = document.getElementById('github-btn');
+    const toast     = document.getElementById('toast');
+
+    document.getElementById('generate-btn').addEventListener('click', () => {
+      const result = buildMarkdown();
+      if (!result) return;
+      preview.value = result.markdown;
+      copyBtn.disabled = false;
+
+      if (owner && repo) {
+        const url = `https://github.com/${owner}/${repo}/new/main` +
+          `?filename=prompts/${encodeURIComponent(result.filename)}` +
+          `&value=${encodeURIComponent(result.markdown)}`;
+        ghBtn.href = url;
+        ghBtn.hidden = false;
+      }
+      preview.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    });
+
+    copyBtn.addEventListener('click', async () => {
+      if (!preview.value) return;
+      try {
+        await navigator.clipboard.writeText(preview.value);
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 1600);
+      } catch (e) {
+        preview.select();
+        document.execCommand('copy');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 1600);
+      }
+    });
+  </script>
+</body>
+</html>
