@@ -10,32 +10,31 @@
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
   <style>
-    /* Page-specific overrides — inherits the library theme */
+    /* Page-specific overrides — inherits the library theme. Sized for readability. */
     .form-card {
       background: var(--cream);
       border: 0.5px solid var(--gold);
       border-radius: 4px;
-      padding: 28px 32px;
+      padding: 32px 36px;
       margin-top: 24px;
     }
-    .field {
-      margin-bottom: 18px;
-    }
+    .field { margin-bottom: 22px; }
     .field label {
       display: block;
       font-family: var(--mono);
-      font-size: 11px;
-      letter-spacing: 0.12em;
+      font-size: 13px;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--ink-soft);
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
     .field .hint {
       font-family: var(--serif);
       font-style: italic;
-      font-size: 14px;
+      font-size: 15.5px;
+      line-height: 1.5;
       color: var(--ink-faint);
-      margin-top: 4px;
+      margin-top: 6px;
       text-transform: none;
       letter-spacing: 0;
     }
@@ -43,9 +42,10 @@
     .field select,
     .field textarea {
       width: 100%;
-      padding: 10px 12px;
+      padding: 13px 14px;
       font-family: var(--serif);
-      font-size: 16px;
+      font-size: 17px;            /* ≥16px to prevent iOS auto-zoom */
+      line-height: 1.5;
       color: var(--ink);
       background: var(--cream-soft);
       border: 1px solid var(--paper-edge);
@@ -53,10 +53,10 @@
     }
     .field textarea {
       font-family: var(--mono);
-      font-size: 13.5px;
-      line-height: 1.5;
+      font-size: 15px;
+      line-height: 1.6;
       resize: vertical;
-      min-height: 140px;
+      min-height: 170px;
     }
     .field-row {
       display: grid;
@@ -66,74 +66,71 @@
     .actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 14px;
+      gap: 12px;
+      margin-top: 18px;
     }
     .btn {
       font-family: var(--mono);
-      font-size: 12px;
+      font-size: 14px;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      padding: 10px 18px;
+      padding: 14px 22px;
+      min-height: 48px;          /* tap target */
       border: 1px solid var(--walnut);
       background: var(--cream-soft);
       color: var(--ink);
       cursor: pointer;
       border-radius: 3px;
       text-decoration: none;
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
-    .btn:hover {
-      background: var(--gold-faint);
-    }
+    .btn:hover { background: var(--gold-faint); }
     .btn.primary {
       background: var(--walnut);
       color: var(--cream);
       border-color: var(--walnut);
     }
-    .btn.primary:hover {
-      background: var(--ink-soft);
-    }
-    .btn:disabled, .btn[disabled] {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
+    .btn.primary:hover { background: var(--ink-soft); }
+    .btn:disabled, .btn[disabled] { opacity: 0.5; cursor: not-allowed; }
     #preview {
       width: 100%;
-      min-height: 280px;
+      min-height: 320px;
       font-family: var(--mono);
-      font-size: 13px;
-      line-height: 1.5;
-      padding: 14px;
+      font-size: 14.5px;
+      line-height: 1.65;
+      padding: 16px;
       border: 1px dashed var(--paper-edge);
       background: var(--cream-soft);
       color: var(--ink);
       white-space: pre;
       overflow-x: auto;
       border-radius: 3px;
-      margin-top: 14px;
+      margin-top: 18px;
     }
     .section-title {
       font-family: var(--serif);
-      font-size: 24px;
+      font-size: 28px;
       font-style: italic;
       color: var(--ink);
       margin: 28px 0 8px;
     }
     .section-sub {
       font-family: var(--serif);
-      font-size: 14px;
+      font-size: 16px;
+      line-height: 1.55;
       font-style: italic;
       color: var(--ink-soft);
       margin: 0 0 14px;
     }
     .step-bar {
       font-family: var(--mono);
-      font-size: 11px;
-      letter-spacing: 0.12em;
+      font-size: 13px;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--ink-faint);
-      margin-bottom: 6px;
+      margin-bottom: 10px;
     }
     #toast {
       position: fixed;
@@ -142,9 +139,9 @@
       transform: translateX(-50%);
       background: var(--ink);
       color: var(--cream);
-      padding: 10px 16px;
+      padding: 14px 22px;
       font-family: var(--mono);
-      font-size: 12px;
+      font-size: 14px;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       border-radius: 3px;
@@ -152,18 +149,28 @@
       transition: opacity 200ms;
       pointer-events: none;
     }
-    #toast.show {
-      opacity: 1;
-    }
+    #toast.show { opacity: 1; }
     .back-link {
       font-family: var(--mono);
-      font-size: 11px;
-      letter-spacing: 0.12em;
+      font-size: 13px;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--walnut);
       text-decoration: none;
     }
     .back-link:hover { text-decoration: underline; }
+
+    /* Mobile */
+    @media (max-width: 720px) {
+      .form-card { padding: 22px 18px; }
+      .field-row { grid-template-columns: 1fr; gap: 0; }
+      .btn { width: 100%; }
+      .btn.primary { width: 100%; }
+      .field input,
+      .field select,
+      .field textarea { font-size: 16px; padding: 14px; }
+      .section-title { font-size: 24px; }
+    }
   </style>
 </head>
 <body>
@@ -198,23 +205,22 @@
       <div class="field-row">
         <div class="field">
           <label for="shelf">Shelf</label>
-          <select id="shelf">
-            <optgroup label="Workshop shelves (curated prompts)">
-              <option value="Discovery">Discovery</option>
-              <option value="Learning">Learning</option>
-              <option value="Research">Research</option>
-              <option value="Building">Building</option>
-              <option value="Outreach">Outreach</option>
-              <option value="Reflection">Reflection</option>
-            </optgroup>
-            <optgroup label="Life-context shelves (your receipts)">
-              <option value="Studying">Studying</option>
-              <option value="Applications">Applications</option>
-              <option value="Career Research">Career Research</option>
-              <option value="Projects">Projects</option>
-              <option value="Life Decisions">Life Decisions</option>
-            </optgroup>
-          </select>
+          <input id="shelf" list="shelf-options" value="Discovery" autocomplete="off"
+                 placeholder="Pick from the list or type your own (e.g., Faith, Wrestling, Music Theory)" />
+          <datalist id="shelf-options">
+            <option value="Discovery"></option>
+            <option value="Learning"></option>
+            <option value="Research"></option>
+            <option value="Building"></option>
+            <option value="Outreach"></option>
+            <option value="Reflection"></option>
+            <option value="Studying"></option>
+            <option value="Applications"></option>
+            <option value="Career Research"></option>
+            <option value="Projects"></option>
+            <option value="Life Decisions"></option>
+          </datalist>
+          <p class="hint">Pick a workshop shelf, a life-context shelf, or invent your own. New shelves auto-appear in the catalog after you publish.</p>
         </div>
         <div class="field">
           <label for="session">Session</label>

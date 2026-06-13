@@ -7,7 +7,7 @@ summary: Teach a concept as a 30-second physical gesture with right-vs-wrong fee
 date_filed: 2026-06-13
 ---
 
-A learning prompt for students who learn through movement, gesture, and embodied action. Physical analogies and gestures land; sitting still and reading slides off. Paste your About You file before this prompt for best results.
+A learning prompt for anyone who learns through movement, gesture, and embodied action. Physical analogies and gestures land; sitting still and reading slides off. Paste your About You file before this prompt for best results.
 
 **Sits in the curriculum at:** Session 1 · Lesson 3 (How You Think) · Personal Operating System
 
@@ -39,4 +39,4 @@ isolates just that part.
 
 - The `[CONCEPT]` placeholder is whatever you're trying to learn — "momentum and impulse," "a sine wave," "leverage," "a chemical bond."
 - After running the prompt, *actually perform the gesture.* The instruction isn't a metaphor — proprioception is the encoding.
-- Older students (17–20) can add a sixth step: *"Now tell me what happens at the edge of my body's range — where does this concept stop being something I can feel?"* Knowing where embodied intuition stops protects you from mis-applying the feel.
+- If you want a deeper version (especially if you are past school age or running this at work), add a sixth step: *"Now tell me what happens at the edge of my body's range — where does this concept stop being something I can feel?"* Knowing where embodied intuition stops protects you from mis-applying the feel.

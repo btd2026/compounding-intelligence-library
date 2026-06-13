@@ -7,7 +7,7 @@ summary: Teach a concept as a sketchable diagram with an explicit order of drawi
 date_filed: 2026-06-13
 ---
 
-A learning prompt for students who think in images and space. A diagram you can draw in 90 seconds lands; walls of text slide off. Paste your About You file before this prompt for best results.
+A learning prompt for anyone who thinks in images and space. A diagram you can draw in 90 seconds lands; walls of text slide off. Paste your About You file before this prompt for best results.
 
 **Sits in the curriculum at:** Session 1 · Lesson 3 (How You Think) · Personal Operating System
 
@@ -38,4 +38,4 @@ arrow I missed.
 
 - The `[CONCEPT]` placeholder is whatever you're trying to learn — "photosynthesis," "a transformer architecture," "supply and demand."
 - After running the prompt, draw the diagram on actual paper before moving on. The drawing is the encoding.
-- Older students (17–20) can add a sixth step: *"Now describe the same diagram at a different scale — zoom in on one box and tell me what's happening inside it."* Learning to switch scales is what turns "I drew it" into "I understand it."
+- If you want a deeper version (especially if you are past school age or running this at work), add a sixth step: *"Now describe the same diagram at a different scale — zoom in on one box and tell me what's happening inside it."* Learning to switch scales is what turns "I drew it" into "I understand it."

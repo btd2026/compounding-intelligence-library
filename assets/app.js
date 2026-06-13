@@ -171,7 +171,13 @@ function renderPlaque() {
 }
 
 function renderFilter() {
-  const shelves = ['All', ...state.shelfOrder.filter(s => state.prompts.some(p => p.shelf === s))];
+  // Known shelves that have at least one prompt, in their canonical order
+  const known = state.shelfOrder.filter(s => state.prompts.some(p => p.shelf === s));
+  // Custom shelves the student invented (anything in prompts that isn't in shelfOrder)
+  const customSet = new Set();
+  state.prompts.forEach(p => { if (p.shelf && !state.shelfOrder.includes(p.shelf)) customSet.add(p.shelf); });
+  const custom = [...customSet].sort();
+  const shelves = ['All', ...known, ...custom];
   // Surface any unexpected shelves not in shelf_order
   state.prompts.forEach(p => {
     if (!shelves.includes(p.shelf)) shelves.push(p.shelf);
@@ -353,10 +359,11 @@ function renderReadHTML(p) {
     ? `<span class="card-stamp" style="transform:none; background:var(--shelf-coral); color:var(--cream);">DRAFT RESPONSE</span>`
     : '';
 
-  // Inline styles so collapsible + response panel work even if styles.css is cached
+  // Inline styles so collapsible + response panel work even if styles.css is cached.
+  // Sized for readability (≥16px form fields to avoid iOS auto-zoom; ≥44px tap targets on mobile).
   const inlineStyles = `
     <style>
-      .prompt-details { margin: 18px 0; }
+      .prompt-details { margin: 22px 0; }
       .prompt-summary {
         cursor: pointer;
         list-style: none;
@@ -365,82 +372,100 @@ function renderReadHTML(p) {
         align-items: center;
         font-family: var(--serif);
         font-style: italic;
-        font-size: 24px;
+        font-size: 26px;
+        line-height: 1.2;
         color: var(--ink);
-        padding: 6px 0;
+        padding: 10px 0;
         border-bottom: 1px dashed var(--paper-edge);
       }
       .prompt-summary::-webkit-details-marker { display: none; }
       .prompt-summary:hover { color: var(--walnut); }
       .prompt-toggle {
-        font-size: 18px;
+        font-size: 22px;
         color: var(--ink-faint);
         transition: transform 200ms;
       }
       details[open] > summary .prompt-toggle { transform: rotate(180deg); }
       details:not([open]) > summary { border-bottom: 1px solid var(--paper-edge); }
-      .prompt-details > .code-block-wrap { margin-top: 12px; }
+      .prompt-details > .code-block-wrap { margin-top: 14px; }
 
       .response-panel {
-        margin-top: 36px;
-        padding: 22px 0 0;
+        margin-top: 40px;
+        padding: 26px 0 0;
         border-top: 1px solid var(--paper-edge);
       }
       .response-eyebrow {
         font-family: var(--mono);
-        font-size: 11px;
-        letter-spacing: 0.14em;
+        font-size: 13px;
+        letter-spacing: 0.12em;
         text-transform: uppercase;
         color: var(--shelf-coral);
-        margin: 0 0 4px;
+        margin: 0 0 6px;
       }
       .response-title {
         font-family: var(--serif);
         font-style: italic;
-        font-size: 22px;
+        font-size: 26px;
+        line-height: 1.25;
         color: var(--ink);
-        margin: 0 0 6px;
+        margin: 0 0 8px;
       }
       .response-sub {
         font-family: var(--serif);
         font-style: italic;
-        font-size: 14px;
+        font-size: 16px;
+        line-height: 1.55;
         color: var(--ink-soft);
-        margin: 0 0 18px;
+        margin: 0 0 20px;
       }
       .response-label {
         display: block;
         font-family: var(--mono);
-        font-size: 11px;
+        font-size: 13px;
         letter-spacing: 0.1em;
         text-transform: uppercase;
         color: var(--ink-faint);
-        margin: 14px 0 4px;
+        margin: 18px 0 6px;
       }
       .response-input {
         width: 100%;
-        padding: 10px 12px;
+        padding: 14px 16px;
         font-family: var(--serif);
-        font-size: 15px;
-        line-height: 1.5;
+        font-size: 17px;          /* ≥16px to avoid iOS auto-zoom */
+        line-height: 1.55;
         color: var(--ink);
         background: var(--cream-soft);
         border: 1px solid var(--paper-edge);
         border-radius: 3px;
         resize: vertical;
-        min-height: 72px;
+        min-height: 90px;
       }
       .response-actions {
         display: flex;
         justify-content: space-between;
         align-items: center;
         flex-wrap: wrap;
-        gap: 12px;
-        margin-top: 18px;
+        gap: 14px;
+        margin-top: 22px;
       }
       .response-buttons {
         display: flex;
-        gap: 10px;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .response-buttons .action {
+        font-size: 13.5px;
+        padding: 12px 18px;
+        min-height: 44px;
+      }
+
+      @media (max-width: 720px) {
+        .prompt-summary { font-size: 22px; }
+        .response-title { font-size: 22px; }
+        .response-input { font-size: 16px; padding: 13px 14px; }
+        .response-actions { flex-direction: column; align-items: stretch; }
+        .response-buttons { flex-direction: column; }
+        .response-buttons .action { width: 100%; }
       }
     </style>
   `;
@@ -486,17 +511,25 @@ function renderReadHTML(p) {
                   placeholder="The actual outcome — did you ship, decide, learn?">${escapeHtml(resp.unlocked || '')}</textarea>
 
         <label class="response-label" for="response-shelf">File this response on</label>
-        <select id="response-shelf" data-field="shelf" class="response-input" style="min-height:0; padding: 10px 12px;">
-          <option value="Reflection"${resp.shelf === 'Reflection' || !resp.shelf ? ' selected' : ''}>Reflection (default)</option>
-          <option value="Studying"${resp.shelf === 'Studying' ? ' selected' : ''}>Studying</option>
-          <option value="Applications"${resp.shelf === 'Applications' ? ' selected' : ''}>Applications</option>
-          <option value="Career Research"${resp.shelf === 'Career Research' ? ' selected' : ''}>Career Research</option>
-          <option value="Projects"${resp.shelf === 'Projects' ? ' selected' : ''}>Projects</option>
-          <option value="Life Decisions"${resp.shelf === 'Life Decisions' ? ' selected' : ''}>Life Decisions</option>
-          <option value="Discovery"${resp.shelf === 'Discovery' ? ' selected' : ''}>Discovery</option>
-          <option value="Learning"${resp.shelf === 'Learning' ? ' selected' : ''}>Learning</option>
-          <option value="Building"${resp.shelf === 'Building' ? ' selected' : ''}>Building</option>
-        </select>
+        <input id="response-shelf" data-field="shelf" class="response-input" list="response-shelf-options"
+               style="min-height:0; padding: 10px 12px;" autocomplete="off"
+               placeholder="Pick a shelf or type a new one"
+               value="${escapeAttr(resp.shelf || 'Reflection')}" />
+        <datalist id="response-shelf-options">
+          <option value="Reflection"></option>
+          <option value="Studying"></option>
+          <option value="Applications"></option>
+          <option value="Career Research"></option>
+          <option value="Projects"></option>
+          <option value="Life Decisions"></option>
+          <option value="Discovery"></option>
+          <option value="Learning"></option>
+          <option value="Building"></option>
+          ${[...new Set(state.prompts.map(x => x.shelf))]
+            .filter(s => s && !['Reflection','Studying','Applications','Career Research','Projects','Life Decisions','Discovery','Learning','Building','Research','Outreach'].includes(s))
+            .map(s => `<option value="${escapeAttr(s)}"></option>`).join('')}
+        </datalist>
+        <p class="response-sub" style="margin: 4px 0 0;">Type a brand-new shelf name to invent a category — it'll show up in the catalog filter bar after the rebuild.</p>
 
         <div class="response-actions">
           <span class="micro" id="response-stamp">${resp.updated_at ? '⁂ DRAFT SAVED ' + escapeHtml(formatTime(new Date(resp.updated_at))) : '⁂ AUTOSAVES TO YOUR BROWSER'}</span>

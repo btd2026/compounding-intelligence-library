@@ -7,7 +7,7 @@ summary: Teach a concept as story, metaphor, and re-explanation — the formats 
 date_filed: 2026-06-13
 ---
 
-A learning prompt for students who think in language. Story, metaphor, and conversation land; diagrams and equations slide off. Paste your About You file before this prompt for best results.
+A learning prompt for anyone who thinks in language. Story, metaphor, and conversation land; diagrams and equations slide off. Paste your About You file before this prompt for best results.
 
 **Sits in the curriculum at:** Session 1 · Lesson 3 (How You Think) · Personal Operating System
 
@@ -36,4 +36,4 @@ that would unlock it.
 
 - The `[CONCEPT]` placeholder is whatever you're trying to learn — "photosynthesis," "Bayes' rule," "the second amendment."
 - The fourth step (re-explanation) is the Feynman move. Don't skip it — that's where the concept actually consolidates.
-- Older students (17–20) can add a fifth step: *"Now give me the same concept the way a critic would frame it — what's the one thing most people get wrong when they explain this?"* Critique-as-explanation sharpens word brains the fastest.
+- If you want a deeper version (especially if you are past school age or running this at work), add a fifth step: *"Now give me the same concept the way a critic would frame it — what's the one thing most people get wrong when they explain this?"* Critique-as-explanation sharpens word brains the fastest.

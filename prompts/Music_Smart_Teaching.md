@@ -7,7 +7,7 @@ summary: Teach a concept as a chant with verse-chorus structure and one delibera
 date_filed: 2026-06-13
 ---
 
-A learning prompt for students who retain through rhythm and repetition. A 5–8 word chant plus a verse-chorus structure lands; flat lists slide off. Paste your About You file before this prompt for best results.
+A learning prompt for anyone who retains through rhythm and repetition. A 5–8 word chant plus a verse-chorus structure lands; flat lists slide off. Paste your About You file before this prompt for best results.
 
 **Sits in the curriculum at:** Session 1 · Lesson 3 (How You Think) · Personal Operating System
 
@@ -38,4 +38,4 @@ If I lose the rhythm, tell me which verse to re-loop.
 
 - The `[CONCEPT]` placeholder is whatever sequence you're trying to memorize — "the Krebs cycle," "the Bill of Rights," "Mandarin tones," a chord progression.
 - Say the chant out loud at least three times after running the prompt. Silent reading defeats the format.
-- Older students (17–20) can add a sixth step: *"Now tell me what genre this concept belongs to — what's the family of ideas it harmonizes with?"* Hearing the genre makes learning the next concept in it twice as fast.
+- If you want a deeper version (especially if you are past school age or running this at work), add a sixth step: *"Now tell me what genre this concept belongs to — what's the family of ideas it harmonizes with?"* Hearing the genre makes learning the next concept in it twice as fast.

@@ -7,7 +7,7 @@ summary: Teach a concept by deriving it from a smaller principle you already acc
 date_filed: 2026-06-13
 ---
 
-A learning prompt for students who trust mechanism over metaphor. Derivation, worked numbers, and edge-case failure modes are what land; story explanations slide off. Paste your About You file before this prompt for best results.
+A learning prompt for anyone who trusts mechanism over metaphor. Derivation, worked numbers, and edge-case failure modes are what land; story explanations slide off. Paste your About You file before this prompt for best results.
 
 **Sits in the curriculum at:** Session 1 · Lesson 3 (How You Think) · Personal Operating System
 
@@ -37,4 +37,4 @@ reasoning went off, then re-ask.
 
 - The `[CONCEPT]` placeholder is whatever you're trying to learn — "backpropagation," "Nash equilibrium," "the photoelectric effect."
 - Step 4 (edge case that breaks it) is the move logic brains use to actually believe the rule. Don't skip it.
-- Older students (17–20) can add a sixth step: *"Now connect this to one other concept I already know — what's the deeper principle they share?"* Spotting cross-domain isomorphisms is what turns problem-solver into theorist.
+- If you want a deeper version (especially if you are past school age or running this at work), add a sixth step: *"Now connect this to one other concept I already know — what's the deeper principle they share?"* Spotting cross-domain isomorphisms is what turns problem-solver into theorist.

@@ -7,7 +7,7 @@ summary: Teach a concept as a named argument between people who disagree, with s
 date_filed: 2026-06-13
 ---
 
-A learning prompt for students who think through other people's perspectives (sometimes called *interpersonal*). Dialogue, conflict, and stakes land; abstract definitions slide off. Paste your About You file before this prompt for best results.
+A learning prompt for anyone who thinks through other people's perspectives (sometimes called *interpersonal*). Dialogue, conflict, and stakes land; abstract definitions slide off. Paste your About You file before this prompt for best results.
 
 **Sits in the curriculum at:** Session 1 · Lesson 3 (How You Think) · Personal Operating System
 
@@ -37,4 +37,4 @@ If I just pick the "winning" side, force me to defend the loser.
 
 - The `[CONCEPT]` placeholder is whatever you're trying to learn — "utilitarian vs. deontological ethics," "the gold standard debate," "the French Revolution," any policy or theoretical position.
 - The push-back step (defend the loser) is the encoding move. Easy alignment is forgettable; defended alignment sticks.
-- Older students (17–20) can add a sixth step: *"Now stage the same argument with one of the characters replaced by someone from history — who would they be, and how does the argument change?"* This is how you start seeing arguments as living traditions, not isolated ideas.
+- If you want a deeper version (especially if you are past school age or running this at work), add a sixth step: *"Now stage the same argument with one of the characters replaced by someone from history — who would they be, and how does the argument change?"* This is how you start seeing arguments as living traditions, not isolated ideas.

@@ -7,7 +7,7 @@ summary: Teach a concept by placing it in a family with siblings, a niche, and a
 date_filed: 2026-06-13
 ---
 
-A learning prompt for students who think in classifications, ecosystems, and relationships (sometimes called *naturalistic*). Family trees and niche analogies land; isolated definitions slide off. Paste your About You file before this prompt for best results.
+A learning prompt for anyone who thinks in classifications, ecosystems, and relationships (sometimes called *naturalistic*). Family trees and niche analogies land; isolated definitions slide off. Paste your About You file before this prompt for best results.
 
 **Sits in the curriculum at:** Session 1 · Lesson 3 (How You Think) · Personal Operating System
 
@@ -38,4 +38,4 @@ If my analogy doesn't quite hold, tell me where the pattern breaks.
 
 - The `[CONCEPT]` placeholder is whatever you're trying to learn — "recurrent neural networks," "market makers," "monocots vs. dicots," "Romanticism."
 - The "niche" question (step 3) is the encoding move. Knowing what something *competes with* or *depends on* tells you why it exists at all.
-- Older students (17–20) can add a sixth step: *"Now name one cross-domain pattern this concept shares with a totally different field — and explain why the pattern is the same."* Cataloguing isomorphisms is how generalists get sharp.
+- If you want a deeper version (especially if you are past school age or running this at work), add a sixth step: *"Now name one cross-domain pattern this concept shares with a totally different field — and explain why the pattern is the same."* Cataloguing isomorphisms is how generalists get sharp.
