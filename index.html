@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reading Room</title>
+  <meta name="description" content="A personal library of prompts from the Compounding Intelligence course." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <div class="page">
+    <header class="plaque" id="plaque">
+      <p class="micro" id="plaque-est">EST. MMXXVI &nbsp;·&nbsp; PRIVATE COLLECTION</p>
+      <h1 class="serif-title" id="plaque-title">Loading...</h1>
+      <p class="serif-italic" id="plaque-subtitle"></p>
+      <div class="ornament-rule">
+        <hr class="gold-rule" /><span class="asterism">⁂</span><hr class="gold-rule" />
+      </div>
+      <p class="micro" id="plaque-cohort"></p>
+    </header>
+
+    <nav class="filter-bar" id="filter" aria-label="Shelf filter"></nav>
+
+    <main class="library" id="library">
+      <p class="loading">Pulling books off the shelves…</p>
+    </main>
+
+    <footer class="colophon">
+      <hr class="plank-rule" />
+      <p class="micro">— END OF COLLECTION —</p>
+      <p class="micro-faint" id="colophon-meta"></p>
+    </footer>
+  </div>
+
+  <div class="modal-backdrop" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-card" id="modal-card"></div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>

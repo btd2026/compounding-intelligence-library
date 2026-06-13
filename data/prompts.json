@@ -1,0 +1,81 @@
+{
+  "config": {
+    "owner": "Your Name",
+    "collection_name": "Your Reading Room",
+    "subtitle": "a private library of prompts & marginalia",
+    "cohort": "Compounding Intelligence · Cohort I",
+    "year_roman": "MMXXVI"
+  },
+  "shelf_order": [
+    "Discovery",
+    "Research",
+    "Outreach",
+    "Building",
+    "Reflection"
+  ],
+  "prompts": [
+    {
+      "id": "Skill_Inventory_Audit",
+      "filename": "Skill_Inventory_Audit.md",
+      "title": "Skill Inventory Audit",
+      "shelf": "Discovery",
+      "session": "1",
+      "lesson": "3",
+      "call_number": "DIS · 1.3",
+      "summary": "Surface the skills you don't realize are leverage.",
+      "date_filed": "2026-06-13",
+      "date_filed_roman": "VI·MMXXVI",
+      "body": "A self-audit prompt for the first Discovery session. Most students undervalue what they're already good at. This prompt forces a model to interview you about your real life and find the skills hiding in plain sight.\n\n**Sits in the curriculum at:** Session 1 · Lesson 3 (Self-Mapping)\n\n## The prompt\n\n```\nYou are a career strategist who is unusually good at finding\nhidden leverage in someone's existing skills. Most people miss\ntheir own strengths because the strengths feel \"easy\" to them.\nYour job is to interview me and surface 8-12 skills I have that\nI'm probably undervaluing.\n\nRun this in three passes.\n\n## Pass 1: Interview me\n\nAsk me 10-15 specific questions, one at a time, about:\n- What I do at work, school, or projects on a regular Tuesday\n- Things friends or colleagues ask ME for help with\n- Tasks I finish faster than people around me\n- Problems I notice that others seem not to notice\n- Tools I use fluently that take others weeks to learn\n- Things I made for fun that I never thought of as work\n\nBe specific. Don't ask \"what are you good at\" — that gets a\nuseless answer. Ask \"the last time a friend asked you for help\nwith something, what was it?\"\n\n## Pass 2: Surface the skills\n\nAfter my answers, list 8-12 skills you've identified. For each:\n- The skill, in 3-5 words\n- The specific moment from my answers that proved it\n- Why this skill is undervalued (most people overlook it)\n- One field where this skill is actually scarce\n\nBe honest. If something I said sounds like it's not a real\nskill, say so — don't flatter me.\n\n## Pass 3: The unfair advantage map\n\nOut of the 8-12 skills, pick the 2-3 that, in combination,\nform an unfair advantage. Tell me:\n- Which combination\n- Why this combination is rare\n- One field or problem where this exact combination would\n  let me do something nobody else can easily do\n\nEnd by telling me what you'd want to ask me in a follow-up\nto refine further.\n```\n\n## How to use this\n\n- Don't fill in the blanks all at once. Let the model run the interview pass first, and answer one question at a time.\n- The point isn't a tidy list. The point is the *combination* the model finds in Pass 3. That's the seed of your direction.\n- Run this once at the start of the course and again at Day 60. The skills it surfaces the second time will be different.",
+      "edit_url": "",
+      "raw_url": ""
+    },
+    {
+      "id": "Field_to_Future",
+      "filename": "Field_to_Future.md",
+      "title": "Field to Future Mapping",
+      "shelf": "Discovery",
+      "session": "2",
+      "lesson": "2",
+      "call_number": "DIS · 2.2",
+      "summary": "Map your skills, talents, and interests against real fields to find gaps worth filling.",
+      "date_filed": "2026-06-13",
+      "date_filed_roman": "VI·MMXXVI",
+      "body": "A deep-research prompt students use to map their skills, talents, and interests against real fields to find concrete opportunities — gaps to fill, problems to solve, projects to start.\n\n**Sits in the curriculum at:** Session 2 · Lesson 2 (Field Onboarding) · Discovery Exercise\n\n## Full version (use this when committing to a direction)\n\n```\nYou are a research strategist helping me find the intersection\nbetween who I am and where the world needs me most. Treat this\nas a deep research task: use real sources, cite where conversations\nare happening, and surface concrete opportunities I can act on.\n\n## About me\n\nSkills (what I'm actually good at, technical and otherwise):\n- [list 4-6]\n\nTalents (what comes naturally — things I do well without trying hard):\n- [list 3-5]\n\nInterests (what I read, watch, or think about for fun):\n- [list 4-6]\n\nFields I've already considered:\n- [list any]\n\n## What I want you to do\n\n1. Map my profile to fields. Identify 6-10 distinct fields where\n   my combination of skills + talents + interests is genuinely valuable.\n   Don't include obvious matches only — surface 2-3 unexpected ones\n   I probably haven't considered.\n\n2. For each field, find real gaps. Where are people in that field\n   RIGHT NOW saying they need solutions? Cite specific sources:\n   subreddits, Twitter accounts, recent papers, news stories,\n   conferences.\n\n3. Connect my profile to the gaps. For each gap, name SPECIFICALLY\n   why my skills + talents + interests let me approach it differently\n   than someone without my profile.\n\n4. Surface concrete next moves. For each field-gap pair, give me:\n   - 2-3 specific people to follow or research\n   - 1 specific community to join\n   - 1 specific book, paper, or podcast to consume\n   - 1 specific 30-day project to test the fit\n   - 1 specific business idea to explore if the project lands\n\n5. Rank the opportunities. Final ranked list with reasoning.\n\n## Output format\n\n### Field 1: [Name]\n- Why this fits me\n- The gap (with cited sources)\n- My differentiation\n- Where the conversation is happening\n- Concrete next moves\n\n[Repeat for fields 2 through 6-10]\n\n### Ranked opportunities\n[Ordered list with reasoning]\n\n### What I haven't told you that might help\n[3-5 questions to refine further]\n```\n\n## Quick-ideation variant (use for first pass / Day-30 follow-up)\n\n```\nI'm trying to figure out which field to go deeper in. Here's me:\n\nSkills: [list 3-5]\nTalents: [list 3]\nInterests: [list 3-5]\n\nGive me 8 distinct field-and-direction combos where this profile\nwould let me build something nobody else is building. For each,\ntell me one real conversation happening right now about a gap I\ncould fill (with the source), and one 30-day project that would\ntest if this is for me.\n```\n\n## Why each part is designed the way it is\n\n- **\"You are a research strategist\"** — role assignment anchors the AI in research mode, not chat.\n- **Splitting skills / talents / interests** — students conflate these. Skills are trained, talents are innate, interests pull. The triangulation is where unique opportunity lives.\n- **\"Don't include obvious matches only\"** — forces the model past the lazy answer.\n- **\"Cite specific sources\"** — turns the AI from speculator to research strategist.\n- **\"30-day project + business idea\"** — bridges research to action.\n- **\"What I haven't told you that might help\"** — forces the model to admit its gaps and gives you the next iteration loop.",
+      "edit_url": "",
+      "raw_url": ""
+    },
+    {
+      "id": "PHATE_Deep_Research",
+      "filename": "PHATE_Deep_Research.md",
+      "title": "PHATE Deep Research",
+      "shelf": "Research",
+      "session": "3",
+      "lesson": "1",
+      "call_number": "RES · 3.1",
+      "summary": "Decode a field by its People, History, Arguments, Terms, and Events.",
+      "date_filed": "2026-06-13",
+      "date_filed_roman": "VI·MMXXVI",
+      "body": "A structured deep-research prompt for getting oriented in a brand-new field fast. PHATE = People, History, Arguments, Terms, Events — the five anchors you need before you can hold a real conversation in any field.\n\n**Sits in the curriculum at:** Session 3 · Lesson 1 (Field Decoding) · Research Block\n\n## The prompt\n\n```\nYou are a field guide writing a primer for a smart outsider\n(me) who needs to be conversational in [FIELD] within two weeks.\nTreat this as deep research — cite specific people, papers,\nthreads, podcasts, and events. No hand-waving.\n\nMap the field along five anchors. For each one give me real\nnames and links, not summaries.\n\n## 1. People\n\nThe 5-10 figures whose names you cannot avoid in this field.\nFor each:\n- One-line position (academic, founder, critic, journalist)\n- The one piece they're most known for (with link)\n- One unexpected take they've held that defines them\n- Where they post / publish today (Twitter, Substack, lab page)\n\n## 2. History\n\nA timeline of the 6-10 inflection points that made this field\nwhat it is. For each:\n- The year and event\n- Why it mattered then\n- Why it still matters now\n- The primary source if there is one\n\n## 3. Arguments\n\nThe 4-6 unresolved debates the field is actively having.\nFor each:\n- The two camps, named, with their representatives\n- The strongest case from each side, fairly\n- Where the debate is currently happening (specific venue)\n- Why an outsider might be useful here\n\n## 4. Terms\n\nThe 15-20 terms I will hear in any serious conversation. For each:\n- The definition (one sentence)\n- The closest layperson translation\n- The common misuse to watch for\n\n## 5. Events\n\nThe 3-5 conferences, workshops, or recurring forums where\nthe field gathers. For each:\n- Name, frequency, venue\n- Who shows up\n- Whether outsiders can attend\n- The 1-2 talks from recent years worth watching\n\n## Final section\n\nWhat would you advise me to read FIRST, in order, over the\nnext 14 days to be conversational? Give me a 14-day reading\nlist with one anchor item per day.\n```\n\n## Notes for use\n\n- The frontmatter `[FIELD]` should be replaced with the specific field — `complex systems`, `prediction markets`, `mechanism design`, etc.\n- This prompt is the receipt students hand to themselves before any Stanford Profs outreach. You can't write a credible cold email until you can name 3-4 people in the field correctly.",
+      "edit_url": "",
+      "raw_url": ""
+    },
+    {
+      "id": "Stanford_Profs_Outreach",
+      "filename": "Stanford_Profs_Outreach.md",
+      "title": "Stanford Profs Outreach",
+      "shelf": "Outreach",
+      "session": "4",
+      "lesson": "1",
+      "call_number": "OUT · 4.1",
+      "summary": "Draft a specific, non-generic cold email to a professor in your field.",
+      "date_filed": "2026-06-13",
+      "date_filed_roman": "VI·MMXXVI",
+      "body": "A cold-email drafting prompt for reaching out to professors (or any practitioner) whose work sits at the center of the field you're trying to enter. Optimized for *response*, not for *appearing impressive*.\n\n**Sits in the curriculum at:** Session 4 · Lesson 1 (Outreach) · Direct Practice\n\n## The prompt\n\n```\nYou are a cold-email coach who has gotten responses from 100+\nbusy academics. Help me draft an outreach email that gets a\nreal reply (not a polite no-reply).\n\nHere is who I'm writing to:\n\nName: [Professor's full name]\nInstitution: [University]\nTheir work: [2-3 sentences about what they study]\nSpecific paper / talk / project of theirs I've engaged with: [be specific]\nWhat surprised, confused, or hooked me about it: [be specific]\n\nHere is who I am:\n\nWhat I'm working on: [1-2 sentences]\nWhy their work matters for what I'm doing: [1-2 sentences]\nWhat I'm specifically asking for: [must be one concrete ask]\nWhat I'm NOT asking for: [also list — to show respect for their time]\n\n## Draft the email with these constraints\n\n- Subject line: 6 words max. Specific to their work, not generic.\n- Opening: One specific sentence proving I read their work. Quote\n  a line, name a result, reference a tweet — something that could\n  not have been written by anyone else.\n- Body: 3-4 short paragraphs. No flattery. No \"huge fan.\" Tell them\n  what I'm doing and why their work intersects.\n- The ask: ONE concrete request. A 15-minute call. A pointer to\n  one paper. An intro to one person. Never \"any advice you have.\"\n- Close: An exit ramp. \"Totally understand if you're too busy\" —\n  in your own words.\n- No signature beyond name and one link to my work.\n\n## Critique pass\n\nAfter drafting, audit your own email:\n- Could this have been sent to any of their colleagues unchanged? If yes, rewrite.\n- Is there a flattery word I could cut? (Cut it.)\n- Is the ask concrete enough that they can say yes or no in one sentence?\n- Is there a sentence the professor would skim past? (Cut it.)\n\nGive me the final version after critique, plus a 2-line summary\nof what you changed and why.\n```\n\n## Variant: practitioner DM (X / LinkedIn)\n\n```\nSame setup as above, but:\n- Compress to 4 sentences total\n- No subject line, no signature\n- One concrete ask\n- Lead with the specific thing they said that I'm responding to\n- End with the ask\n```\n\n## What separates a reply from a no-reply\n\nThe single biggest predictor of a reply is the opening sentence proving you actually read their work. Most cold emails fail here. They open with \"I'm a student interested in your research.\" That sentence could be sent to any of 500 professors. The professor knows it, and archives the email in 0.4 seconds.\n\nReplace it with: *\"Your 2023 paper on [exact title] made the claim that [specific result], which I'd been assuming was settled the other way after reading [other person's] work.\"* — and you get replies.",
+      "edit_url": "",
+      "raw_url": ""
+    }
+  ],
+  "repo": "",
+  "branch": "main",
+  "generated_at": "2026-06-13T13:08:57.558Z"
+}
